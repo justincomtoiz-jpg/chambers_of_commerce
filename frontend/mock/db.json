@@ -1,0 +1,29 @@
+{
+    "pre_applications": [
+      {
+        "id": "1",
+        "requestorName": "Alice Johnson",
+        "dob": "1990-05-10",
+        "businessName": "Vinewood Eats",
+        "type": "Business",
+        "description": "Small food stall serving tacos.",
+        "location": "vinewood_blvd",
+        "budget": 5000,
+        "category": "Food",
+        "status": "PendingReview",
+        "createdBy": "devUser",
+        "createdByGrade": 0,
+        "createdAt": "2026-02-01T12:00:00Z",
+        "updatedAt": "2026-02-01T12:00:00Z"
+      }
+    ],
+    "streets": [
+      { "id": "s1", "code": "vinewood_blvd", "name": "Vinewood Blvd" },
+      { "id": "s2", "code": "vespucci_blvd", "name": "Vespucci Blvd" }
+    ],
+    "formal_reviews": [],
+    "businesses": [],
+    "inspections": [],
+    "logs": []
+  }
+  

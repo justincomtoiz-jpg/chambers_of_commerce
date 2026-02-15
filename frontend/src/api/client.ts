@@ -1,15 +1,10 @@
 import axios from 'axios';
-import { getAuthHeaders } from '../stores/auth';
 
+// Default API client pointing at the backend used in the project.
+// If your backend runs on a different host/port, update this value.
 const api = axios.create({
-  baseURL: '/',
-  headers: { 'Content-Type': 'application/json' },
-});
-
-api.interceptors.request.use((config) => {
-  const headers = getAuthHeaders();
-  config.headers = { ...config.headers, ...headers };
-  return config;
+  baseURL: 'http://localhost:3001', // original backend mock port
+  headers: { 'Content-Type': 'application/json' }
 });
 
 export default api;
