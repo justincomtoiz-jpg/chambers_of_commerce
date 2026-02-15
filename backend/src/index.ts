@@ -1,12 +1,12 @@
 import 'reflect-metadata';
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import http from 'http';
 import { Server as IOServer } from 'socket.io';
 import { AppDataSource } from './ormconfig';
 import preAppRoutes from './routes/preApplications';
-import formalRoutes from './routes/formalReviews';
+import formalRoutes from './routes/formalReviews'; // <-- matches file name formalReviews.ts
 import boardRoutes from './routes/board';
 import commissionerRoutes from './routes/commissioner';
 import inspectionsRoutes from './routes/inspections';
@@ -22,7 +22,7 @@ import { seed } from './services/seedStreets';
 const app = express();
 const server = http.createServer(app);
 const io = new IOServer(server, {
-  cors: { origin: '*' },
+  cors: { origin: '*' }
 });
 
 // attach io to app locals so routes/services can access it
@@ -48,23 +48,21 @@ app.use('/', express.static(path.join(__dirname, '../../frontend/dist')));
 
 const PORT = Number(process.env.PORT || 3001);
 
-AppDataSource.initialize()
-  .then(async () => {
-    console.log('DB connected');
-    await seed();
+AppDataSource.initialize().then(async () => {
+  console.log('DB connected');
+  await seed();
 
-    io.on('connection', (socket) => {
-      console.log('Socket connected', socket.id);
-      socket.on('join', (room) => {
-        socket.join(room);
-      });
-      socket.on('disconnect', () => {
-        console.log('Socket disconnected', socket.id);
-      });
+  io.on('connection', (socket) => {
+    console.log('Socket connected', socket.id);
+    socket.on('join', (room: string) => {
+      socket.join(room);
     });
-
-    server.listen(PORT, () => console.log(`Server listening ${PORT}`));
-  })
-  .catch((err) => {
-    console.error('DB init error', err);
+    socket.on('disconnect', () => {
+      console.log('Socket disconnected', socket.id);
+    });
   });
+
+  server.listen(PORT, () => console.log(`Server listening ${PORT}`));
+}).catch(err => {
+  console.error('DB init error', err);
+});
